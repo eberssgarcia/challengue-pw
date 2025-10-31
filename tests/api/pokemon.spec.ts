@@ -5,7 +5,7 @@ import { logStart, logEnd } from '../../utils/logger';
 
 const config = Environment.getConfig();
 
-const pokemonData = ExcelReader.pokemons('pokemon.xlsx');
+const pokemonData = ExcelReader.pokemons('Datos-pruebas.xlsx');
 
 test.describe('Listado de Pokémon - API pokeapi', () => {
     for (const { id, name } of pokemonData) {

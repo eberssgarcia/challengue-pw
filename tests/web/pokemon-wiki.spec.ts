@@ -8,7 +8,7 @@ import { logStart, logEnd } from '../../utils/logger';
 import * as path from 'path';
 
 const cfg = Environment.getConfig();
-const names = ExcelReader.names('pokemon.xlsx'); // lee tu archivo real
+const names = ExcelReader.names('Datos-pruebas.xlsx'); // lee tu archivo real
 const IMAGES_DIR = path.resolve(__dirname, '../../images');
 
 test.describe('Ver Pokemon en Wikipedia - WEB', () => {
