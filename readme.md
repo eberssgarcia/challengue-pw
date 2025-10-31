@@ -37,7 +37,7 @@ Proyecto E2E + API que valida Pokémon en **PokeAPI** y descarga/valida imágene
 1. **Clona el repo** y entra a la carpeta.
 
 ```bash
-  git clone
+  git clone https://github.com/eberssgarcia/challengue-pw.git
 ```
 
 2. **Instala dependencias**:
@@ -74,7 +74,7 @@ El proyecto usa **fixtures** para encriptar (SHA‑256) una **clave secreta** se
 -   `QA`
 -   `CERT`
 
-> **No** genera el archivo `.env` y setea ambiente, secretos.
+> **Nota** genera el archivo `.env` y setea ambiente, secretos.
 
 ### Configuración local (.env)
 
@@ -93,7 +93,7 @@ CERT="<tu-clave-cert>"
 ### Cambiar de entorno en PowerShell
 
 ```powershell
-$env:ENV = "CERT"      # o "QA"
+$env:ENVIRONMENT = "CERT"      # o "QA"
 ```
 
 ---
