@@ -5,7 +5,7 @@ import { logStart, logEnd } from '../../utils/logger';
 const config = Environment.getConfig();
 
 test.describe('Creación de Post - API jsonplaceholder', () => {
-    test('Crear Post', async ({ request }, testInfo) => {
+    test('Crear Post @regression @api', async ({ request }, testInfo) => {
         // API Request
         const bodyRq = { title: 'monnet', body: 'challenge', userId: 1 };
         // loguear inicio

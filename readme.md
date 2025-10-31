@@ -132,10 +132,13 @@ npx playwright test tests/web/pokemon-wiki.spec.ts --project=chromium
 npx playwright test --ui
 ```
 
-### Filtrar por título
+### Ejecutar Test por Tags
 
 ```bash
-npx playwright test -g "Crear Post"
+npx playwright test --grep "@web"
+npx playwright test --grep "@api"
+npx playwright test --grep "@smoke"
+npx playwright test --grep "@regression"
 ```
 
 > Asegura definir `ENV=QA|CERT` antes de ejecutar (ver sección de **Entornos**). Si la variable está vacía o inválida, el fixture falla de forma explícita.
@@ -213,4 +216,4 @@ npx playwright test --retries=2 --reporter=html
 
 ## 📄 Licencia
 
-Challengue Monnet Payments
+Challengue Monnet Payments by @eberssgarcia

@@ -9,16 +9,15 @@ const pokemonData = ExcelReader.pokemons('pokemon.xlsx');
 
 test.describe('Listado de Pokémon - API pokeapi', () => {
     for (const { id, name } of pokemonData) {
-        test(`Validar datos del Pokémon ${name} (${id})`, async ({ request }, testInfo) => {
+        test(`Validar datos del Pokémon ${name} (${id}) @smoke @regression @api`, async ({ request }, testInfo) => {
             // loguear inicio de test
-            logStart(`Test ${name}`);
+            logStart(`${name}`);
 
             // Anotaciones en el reporte
             testInfo.annotations.push({ type: 'ID Issue 1002', description: 'Listar Pokémon por ID de un archivo Excel' });
 
             // Medir tiempo de respuesta
             const startTime = Date.now();
-            // API Request
             const response = await request.get(`${config.apiPokemon}/pokemon/${id}`);
             // Fin medición tiempo
             const endTime = Date.now();
@@ -31,12 +30,14 @@ test.describe('Listado de Pokémon - API pokeapi', () => {
             expect(body.name.toLowerCase()).toBe(name.toLowerCase());
             expect(body.abilities.length).toBeGreaterThan(0);
 
-            // Validar tiempo de respuesta
+            // Validar tiempo de respuesta < 10 segundos
             const duration = (endTime - startTime) / 1000;
             expect(duration).toBeLessThan(10);
+            // Tiempo de respuesta
+            console.log(`[response time] Pokémon ${name} (${id}) -> ${duration.toFixed(2)} seconds`);
 
             // loguear fin de test
-            logEnd(`Test ${name}`);
+            logEnd(`${name}`);
         });
     }
 });

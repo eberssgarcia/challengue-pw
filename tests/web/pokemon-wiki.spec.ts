@@ -18,7 +18,7 @@ test.describe('Ver Pokemon en Wikipedia - WEB', () => {
     });
 
     for (const name of names) {
-        test(`Validar pokemon ${name}`, async ({ page }, testInfo) => {
+        test(`Validar pokemon ${name} @regression @smoke @web`, async ({ page }, testInfo) => {
             // Annotaciones en el reporte
             testInfo.annotations.push({ type: 'ID Issue 1003', description: 'Ver Pokémon en Wikipedia' });
 
