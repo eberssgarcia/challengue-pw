@@ -5,6 +5,36 @@ on:
         branches: [main, master, develop]
     pull_request:
         branches: [main, master, develop]
+    workflow_dispatch:
+        inputs:
+            environment:
+                description: 'Ambiente a ejecutar'
+                type: choice
+                required: true
+                default: both
+                options:
+                    - both
+                    - QA
+                    - CERT
+            grep:
+                description: "Filtro por tag o título (ej: @api, @web, 'Crear Post')"
+                type: string
+                required: false
+                default: ''
+            project:
+                description: 'Proyecto/navegador (chromium|firefox|webkit)'
+                type: choice
+                required: false
+                default: ''
+                options:
+                    - chromium
+                    - firefox
+                    - webkit
+            specPath:
+                description: 'Ruta opcional del spec o carpeta (ej: tests/api)'
+                type: string
+                required: false
+                default: ''
 
 jobs:
     test:
@@ -12,7 +42,7 @@ jobs:
         timeout-minutes: 60
         strategy:
             matrix:
-                env: [QA, CERT]
+                env: ${{ fromJSON( (inputs.environment && inputs.environment != 'both') && format('["{0}"]', inputs.environment) || '["QA","CERT"]' ) }}
 
         steps:
             - name: Checkout
@@ -30,12 +60,30 @@ jobs:
             - name: Install Playwright Browsers
               run: npx playwright install --with-deps
 
+            - name: Build Playwright args
+              id: args
+              shell: bash
+              run: |
+                  ARGS="--reporter=html --retries=2"
+                  if [ -n "${{ inputs.grep }}" ]; then
+                    ARGS="$ARGS --grep '${{ inputs.grep }}'"
+                  fi
+                  if [ -n "${{ inputs.project }}" ]; then
+                    ARGS="$ARGS --project=${{ inputs.project }}"
+                  fi
+                  if [ -n "${{ inputs.specPath }}" ]; then
+                    ARGS="$ARGS ${{ inputs.specPath }}"
+                  fi
+                  echo "args=$ARGS" >> $GITHUB_OUTPUT
+
             - name: Run Playwright tests (${{ matrix.env }})
               env:
                   ENVIRONMENT: ${{ matrix.env }}
                   QA: ${{ secrets.QA_SECRET }}
                   CERT: ${{ secrets.CERT_SECRET }}
-              run: npx playwright test --reporter=html
+              run: |
+                  echo "Running with args: ${{ steps.args.outputs.args }}"
+                  npx playwright test ${{ steps.args.outputs.args }}
 
             - name: Upload Playwright HTML report
               if: always()
