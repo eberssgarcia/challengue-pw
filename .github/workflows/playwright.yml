@@ -35,7 +35,7 @@ jobs:
                   ENVIRONMENT: ${{ matrix.env }}
                   QA: ${{ secrets.QA_SECRET }}
                   CERT: ${{ secrets.CERT_SECRET }}
-              run: npx playwright test --reporter=html
+              run: npx playwright test --project=chromium --reporter=html
 
             - name: Upload Playwright HTML report
               if: always()
